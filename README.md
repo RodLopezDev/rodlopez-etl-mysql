@@ -1,3 +1,3 @@
 # ETL lib
 
-This tool wrap postgresql actions
+This tool wrap mysql actions
