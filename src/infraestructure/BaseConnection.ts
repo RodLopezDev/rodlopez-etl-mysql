@@ -1,6 +1,6 @@
 import { createConnection, Connection } from "mysql2/promise";
 
-import PgException from "../domain/PgException";
+import MySqlException from "../domain/MySqlException";
 import IBaseConnection from "../domain/IBaseConnection";
 
 import { ALREADY_CONNECTED, ERROR_NOT_CONNECTED } from "../constants/errors";
@@ -18,7 +18,7 @@ class BaseConnection implements IBaseConnection {
 
   async connect() {
     if (!!this.connection) {
-      throw new PgException(ALREADY_CONNECTED, "", "");
+      throw new MySqlException(ALREADY_CONNECTED, "", "");
     }
 
     this.connection = await createConnection({
@@ -28,12 +28,13 @@ class BaseConnection implements IBaseConnection {
       user: this.user,
       password: this.password,
     });
+
     return true;
   }
 
   async ping() {
     if (!this.connection) {
-      throw new PgException(ERROR_NOT_CONNECTED, "", "");
+      throw new MySqlException(ERROR_NOT_CONNECTED, "", "");
     }
     await this.connection.ping();
     return true;
@@ -41,7 +42,7 @@ class BaseConnection implements IBaseConnection {
 
   async disconnect() {
     if (!this.connection) {
-      throw new PgException(ERROR_NOT_CONNECTED, "", "");
+      throw new MySqlException(ERROR_NOT_CONNECTED, "", "");
     }
     this.connection.destroy();
     return true;

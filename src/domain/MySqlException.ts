@@ -1,4 +1,4 @@
-class PgException extends Error {
+class MySqlException extends Error {
   detail: string;
   coreDetail: string;
   constructor(code: string, detail: string, coreDetail: string) {
@@ -12,4 +12,4 @@ class PgException extends Error {
   }
 }
 
-export default PgException;
+export default MySqlException;
