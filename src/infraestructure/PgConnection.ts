@@ -19,6 +19,9 @@ class PgConnection extends BaseConnection implements IConnection {
       return element?.[key?.[0]] || "";
     });
 
+    console.log(fields, "fields");
+    console.log(result, "result");
+
     throw new PgException("", "", "");
   }
 
