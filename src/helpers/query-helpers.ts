@@ -24,6 +24,7 @@ export const GetColumns = (fields: FieldPacket[]): IColumn[] => {
   });
   return Columns;
 };
+
 export const QueryResultType = (query: string): QueryType => {
   const _query = query.toLowerCase();
   if (_query.toLowerCase().indexOf("insert") === 0) {

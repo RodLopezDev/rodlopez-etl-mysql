@@ -11,6 +11,10 @@ import { QueryType, QueryTypeLabel } from "../constants/query-type";
 import { GetColumns, QueryResultType } from "../helpers/query-helpers";
 
 class MySqlConnection extends BaseConnection implements IConnection {
+  get dbName() {
+    return this.database;
+  }
+
   async query(query: string): Promise<IQueryResult> {
     if (!this.connection) {
       throw new MySqlException(ERROR_NOT_CONNECTED, "", "");

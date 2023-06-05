@@ -2,7 +2,6 @@ import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
 import { getNumber, getString } from "./utils";
 
-import { MySqlException } from "../src/";
 import PingUseCase from "./use-cases/example-case";
 
 const app = express();
@@ -30,10 +29,7 @@ app.post("/query", async (req: Request, res: Response) => {
     );
     return res.json(result);
   } catch (e: any) {
-    if (e instanceof MySqlException) {
-      return res.json({ error: e?.message, detail: e?.detail });
-    }
-    return res.json({ error: e?.message });
+    return res.json({ error: e?.message, ...e });
   }
 });
 

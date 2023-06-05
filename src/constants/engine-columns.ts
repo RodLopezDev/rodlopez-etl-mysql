@@ -13,8 +13,13 @@ const SupportedColumns: ColType[] = [
     commonType: CommonColumnType.INT,
   },
   {
+    id: 252,
+    nativeType: "Blob",
+    commonType: CommonColumnType.STRING,
+  },
+  {
     id: 253,
-    nativeType: "varchar",
+    nativeType: "VarChar",
     commonType: CommonColumnType.STRING,
   },
 ];

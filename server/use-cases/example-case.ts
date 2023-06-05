@@ -1,4 +1,5 @@
 import MySqlConnection from "../../src/infraestructure/MySqlConnection";
+import MySqlObjects from "../../src/infraestructure/MySqlObjects";
 
 const PingUseCase = async (
   host: string,
@@ -10,14 +11,8 @@ const PingUseCase = async (
 ): Promise<any> => {
   const connection = new MySqlConnection(host, port, database, user, password);
 
-  const connected = await connection.connect();
-  if (!connected) {
-    return connected;
-  }
-
-  const result = await connection.query(query);
-
-  await connection.disconnect();
+  const objects = new MySqlObjects(connection);
+  const result = await objects.getColumns("examplito2");
 
   return result;
 };

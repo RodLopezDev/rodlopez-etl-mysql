@@ -9,17 +9,20 @@ import {
   ERROR_NOT_CONNECTED,
   OBJECT_NOT_FOUND,
 } from "../constants/errors";
+import IQueryResult, { SelectType } from "../domain/IQueryResult";
 
 class MySqlObjects implements IObjects {
   constructor(private readonly pgConnection: PgConnection) {}
 
-  async getTables() {
+  async getTables(): Promise<SelectType> {
     const connected = await this.pgConnection.connect();
     if (!connected) {
       throw new MySqlException(ERROR_NOT_CONNECTED, "", "");
     }
 
-    const result = await this.pgConnection.query(getTablesQuery());
+    const result = await this.pgConnection.query(
+      getTablesQuery(this.pgConnection.dbName)
+    );
     if (!result.isSelect) {
       throw new MySqlException(BAD_FORMAT_QUERY, "", "");
     }
@@ -32,13 +35,15 @@ class MySqlObjects implements IObjects {
     return result;
   }
 
-  async getColumns(table: string) {
+  async getColumns(table: string): Promise<SelectType> {
     const connected = await this.pgConnection.connect();
     if (!connected) {
       throw new MySqlException(ERROR_NOT_CONNECTED, "", "");
     }
 
-    const result = await this.pgConnection.query(getColumnsQuery(table));
+    const result = await this.pgConnection.query(
+      getColumnsQuery(this.pgConnection.dbName, table)
+    );
     if (!result.isSelect) {
       throw new MySqlException(BAD_FORMAT_QUERY, "", "");
     }
