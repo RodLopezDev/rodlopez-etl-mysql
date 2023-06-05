@@ -5,7 +5,8 @@ const PingUseCase = async (
   port: number,
   database: string,
   user: string,
-  password: string
+  password: string,
+  query: string
 ): Promise<any> => {
   const connection = new MySqlConnection(host, port, database, user, password);
 
@@ -14,13 +15,7 @@ const PingUseCase = async (
     return connected;
   }
 
-  const result = await connection.query("select * from examplito2");
-  /*const result = await connection.query(
-    `INSERT INTO examplito2 
-    (valuecillo, valuecillo2, rodri)
-    values(1, 1, 'EXAMPLE')`
-  );*/
-  console.log(result, "result");
+  const result = await connection.query(query);
 
   await connection.disconnect();
 

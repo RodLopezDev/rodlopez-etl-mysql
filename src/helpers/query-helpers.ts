@@ -5,6 +5,7 @@ import MySqlException from "../domain/MySqlException";
 
 import SupportedColumns from "../constants/engine-columns";
 import { NOT_SUPPORTED_COLUMN } from "../constants/errors";
+import { QueryType } from "../constants/query-type";
 
 export const GetColumns = (fields: FieldPacket[]): IColumn[] => {
   const Columns = fields.map((field): IColumn => {
@@ -22,4 +23,23 @@ export const GetColumns = (fields: FieldPacket[]): IColumn[] => {
     return { name, commonType, nativeType };
   });
   return Columns;
+};
+export const QueryResultType = (query: string): QueryType => {
+  const _query = query.toLowerCase();
+  if (_query.toLowerCase().indexOf("insert") === 0) {
+    return QueryType.INSERT;
+  }
+  if (_query.toLowerCase().indexOf("update") === 0) {
+    return QueryType.UPDATE;
+  }
+  if (_query.toLowerCase().indexOf("delete") === 0) {
+    return QueryType.DELETE;
+  }
+  if (_query.toLowerCase().indexOf("create table") === 0) {
+    return QueryType.CREATE;
+  }
+  if (_query.toLowerCase().indexOf("drop table") === 0) {
+    return QueryType.CREATE;
+  }
+  return QueryType.UNKNOWN;
 };

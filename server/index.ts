@@ -11,20 +11,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const port = 3000;
 
-app.post("/example", async (req: Request, res: Response) => {
+app.post("/query", async (req: Request, res: Response) => {
   try {
     const DB_HOST = getString(req.body, "host");
     const DB_PORT = getNumber(req.body, "port" || 0);
     const DB_NAME = getString(req.body, "database");
     const DB_USER = getString(req.body, "user");
     const DB_PASSWORD = getString(req.body, "password");
+    const DB_QUERY = getString(req.body, "query");
 
     const result = await PingUseCase(
       DB_HOST,
       DB_PORT,
       DB_NAME,
       DB_USER,
-      DB_PASSWORD
+      DB_PASSWORD,
+      DB_QUERY
     );
     return res.json(result);
   } catch (e: any) {
