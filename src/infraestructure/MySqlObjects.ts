@@ -9,7 +9,7 @@ import {
   ERROR_NOT_CONNECTED,
   OBJECT_NOT_FOUND,
 } from "../constants/errors";
-import IQueryResult, { SelectType } from "../domain/IQueryResult";
+import { SelectType } from "../domain/IQueryResult";
 
 class MySqlObjects implements IObjects {
   constructor(private readonly pgConnection: PgConnection) {}
