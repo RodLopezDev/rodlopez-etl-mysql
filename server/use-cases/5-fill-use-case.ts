@@ -6,7 +6,6 @@ const FillUseCase = async (
   database: string,
   user: string,
   password: string,
-  schema: string,
   table: string,
   data: any
 ) => {
@@ -17,7 +16,7 @@ const FillUseCase = async (
     return null;
   }
 
-  const result = await connection.fill(schema, table, data);
+  const result = await connection.fill(table, data);
 
   await connection.disconnect();
 

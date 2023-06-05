@@ -60,7 +60,6 @@ class MySqlConnection extends BaseConnection implements IConnection {
   }
 
   async fill(
-    schema: string,
     table: string,
     data: Record<string, any>[]
   ): Promise<IQueryResult[]> {
@@ -68,14 +67,32 @@ class MySqlConnection extends BaseConnection implements IConnection {
       throw new MySqlException(ERROR_NOT_CONNECTED, "", "");
     }
 
-    return Promise.resolve([
-      {
-        type: "INSERT",
-        completed: true,
-        affectedRows: 0,
-        isSelect: false,
-      },
-    ]);
+    const query = `INSERT INTO ${table} ({{COLUMNS}}) VALUES ({{VALUES}});`;
+
+    const rowString = data?.map((item) => {
+      const keys = Object.keys(item);
+      const keysChain = keys.join(", ");
+
+      const values = keys.map((key) => {
+        const value = item[key];
+        return Number.isNaN(Number(value)) ? `'${value}'` : Number(value);
+      });
+      const valuesChain = values.join(", ");
+
+      const finalQuery = query
+        .replace("{{COLUMNS}}", keysChain)
+        .replace("{{VALUES}}", valuesChain);
+
+      return finalQuery.replace("\n", "");
+    });
+
+    console.log(rowString, "rowString");
+
+    const promisesAll = await Promise.all(
+      rowString.map((row) => this.query(row))
+    );
+
+    return promisesAll;
   }
 }
 

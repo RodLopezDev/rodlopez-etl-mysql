@@ -110,11 +110,10 @@ app.post("/fill", async (req: Request, res: Response) => {
     const DB_NAME = getString(req.body, "database");
     const DB_USER = getString(req.body, "user");
     const DB_PASSWORD = getString(req.body, "password");
-    const DB_SCHEMA = getString(req.body, "schema");
     const DB_TABLE = getString(req.body, "table");
     const DB_DATA = req.body?.data;
 
-    console.log(DB_DATA);
+    console.log(DB_DATA, "DB_DATA");
 
     const result = await FillUseCase(
       DB_HOST,
@@ -122,7 +121,6 @@ app.post("/fill", async (req: Request, res: Response) => {
       DB_NAME,
       DB_USER,
       DB_PASSWORD,
-      DB_SCHEMA,
       DB_TABLE,
       DB_DATA
     );
