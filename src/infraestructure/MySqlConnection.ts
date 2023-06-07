@@ -86,8 +86,6 @@ class MySqlConnection extends BaseConnection implements IConnection {
       return finalQuery.replace("\n", "");
     });
 
-    console.log(rowString, "rowString");
-
     const promisesAll = await Promise.all(
       rowString.map((row) => this.query(row))
     );

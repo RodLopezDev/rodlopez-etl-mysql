@@ -33,11 +33,24 @@ class BaseConnection implements IBaseConnection {
   }
 
   async ping() {
-    if (!this.connection) {
-      throw new MySqlException(ERROR_NOT_CONNECTED, "", "");
+    if (!!this.connection) {
+      return true;
     }
-    await this.connection.ping();
-    return true;
+
+    try {
+      const connection = await createConnection({
+        host: this.host,
+        port: this.port,
+        database: this.database,
+        user: this.user,
+        password: this.password,
+      });
+
+      await connection.ping();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   async disconnect() {
